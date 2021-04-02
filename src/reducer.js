@@ -37,7 +37,7 @@ const setSquare = (state, action) => {
 }
 
 // each square calls this and gets updated state
-const squareReducer = (state = boardState, action) => {
+const squaresReducer = (state = boardState, action) => {
     switch (action.type) {
         case "SET TO X":
             return state.map(t => setSquare(t, action));
@@ -61,7 +61,7 @@ const whoIsNextReducer = (state = { xIsNext: true }, action) => {
 }
 
 const rootReducer = combineReducers({
-    square: squareReducer,
+    squares: squaresReducer,
     whoIsNext: whoIsNextReducer
 });
 

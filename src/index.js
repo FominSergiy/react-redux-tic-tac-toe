@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux'
 const Square = (props) => {
     // props.id is used in the Reducer to access state of each square
     // state is an Arr with 9 obj representing squares
-    const squareValue = useSelector(state => state.square[props.id].value);
+    const squareValue = useSelector(state => state.squares[props.id].value);
 
     return (
         <button className="square"
@@ -26,10 +26,14 @@ const Square = (props) => {
 const Board = () => {
     const xIsNext = useSelector(state => state.whoIsNext.xIsNext);
     const dispatch = useDispatch();
+    const whoMovesNext = xIsNext ? 'X' : 'O';
+
+    const winner = calculateWinner(
+        useSelector(state => state.squares)
+    );
+
 
     const handleClick = (i) => {
-        const whoMovesNext = xIsNext ? 'X' : 'O';
-
         dispatch({
             type: `SET TO ${whoMovesNext}`,
             id: i
@@ -38,7 +42,6 @@ const Board = () => {
         dispatch({
             type: 'SET NEXT MOVE'
         });
-
     }
 
     const renderSquare = (i) => {
@@ -48,7 +51,13 @@ const Board = () => {
         />;
     }
 
-    const status = 'Next player: X';
+    let status;
+
+    if (winner) {
+        status = 'Winner: ' + winner;
+    } else {
+        status = `Next player: ${whoMovesNext}`;
+    }
 
     return (
         <div>
@@ -94,3 +103,28 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
+
+
+function calculateWinner(squares) {
+    // new squares is obj inside the reducer
+    // extracting only values for comparison
+    const squaresValues = squares.map(sq => sq.value);
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squaresValues[a] && squaresValues[a] === squaresValues[b]
+            && squaresValues[a] === squaresValues[c]) {
+            return squaresValues[a];
+        }
+    }
+    return null;
+}

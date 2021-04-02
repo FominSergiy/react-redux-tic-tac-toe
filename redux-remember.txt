@@ -1,0 +1,4 @@
+1. Store is updated with Actions
+2. Action is plain js object
+3. Has to be pure function - does not modify arguements passed, don't do any db calls.
+4.Need to have a reducer function

@@ -25,15 +25,20 @@ const Square = (props) => {
 
 const Board = () => {
     const xIsNext = useSelector(state => state.whoIsNext.xIsNext);
+    const squares = useSelector(state => state.squares);
     const dispatch = useDispatch();
     const whoMovesNext = xIsNext ? 'X' : 'O';
 
-    const winner = calculateWinner(
-        useSelector(state => state.squares)
-    );
+
+    const winner = calculateWinner(squares);
 
 
     const handleClick = (i) => {
+
+        if (winner || squares[i].value) {
+            return;
+        }
+
         dispatch({
             type: `SET TO ${whoMovesNext}`,
             id: i

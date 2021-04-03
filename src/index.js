@@ -4,8 +4,7 @@ import './index.css';
 
 import { store } from './reducer.js';
 import { Provider } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 
 
 

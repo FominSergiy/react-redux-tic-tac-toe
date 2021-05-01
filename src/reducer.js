@@ -1,13 +1,8 @@
 import { createStore, combineReducers } from 'redux';
+import { getBoardInitialState } from './utils.js';
 
-const boardState = [];
+const boardState = getBoardInitialState(9);
 
-for (let i = 0; i < 9; i++) {
-    boardState.push({
-        value: null,
-        id: i
-    });
-}
 
 // this function is called to set each individual square value
 const setSquare = (state, action) => {

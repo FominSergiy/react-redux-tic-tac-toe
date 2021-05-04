@@ -5,26 +5,24 @@ const boardState = getBoardInitialState(9);
 
 
 // this function is called to set each individual square value
-const setSquare = (state, action) => {
+const setElementInArr = (state, action) => {
     switch (action.type) {
         case "SET TO X":
-            if (state.id !== action.id) {
-                return state;
-            }
-
-            return {
-                ...state,
-                value: 'X'
-            };
         case "SET TO O":
-            if (state.id !== action.id) {
-                return state;
-            }
+            const leftSide = state.slice(0, action.id);
+            const rightSide = state.slice(action.id + 1, state.length);
 
-            return {
-                ...state,
-                value: 'O'
+            let setOnIndex = state[action.id];
+            console.log(setOnIndex);
+
+            setOnIndex = {
+                ...setOnIndex,
+                'value': action.value
             };
+
+            console.log(leftSide.concat(setOnIndex, rightSide));
+            return leftSide.concat(setOnIndex, rightSide);
+
         default:
             return state;
     }
@@ -34,9 +32,8 @@ const setSquare = (state, action) => {
 const squaresReducer = (state = boardState, action) => {
     switch (action.type) {
         case "SET TO X":
-            return state.map(t => setSquare(t, action));
         case "SET TO O":
-            return state.map(t => setSquare(t, action));
+            return setElementInArr(state, action);
         default:
             return state;
     }

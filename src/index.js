@@ -41,7 +41,8 @@ const Board = () => {
 
         dispatch({
             type: `SET TO ${whoMovesNext}`,
-            id: i
+            id: i,
+            value: whoMovesNext
         });
 
         dispatch({

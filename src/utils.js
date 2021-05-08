@@ -1,16 +1,18 @@
-export const getBoardInitialState = (boardSize) => {
-    const board = Array(boardSize).fill(null).map(
-        (square, index) => {
-            return { value: null, id: index };
-        }
+export const getBoardInitialState = (size) => {
+    const initObj = {};
+    const board = Array(size).fill(null).reduce(
+        (obj, item, index) => {
+            return {
+                ...obj,
+                [index]: { value: null, id: index }
+            };
+        }, initObj
     );
+
     return board;
 }
 
 export const calculateWinner = (squares) => {
-    // new squares is obj inside the reducer
-    // extracting only values for comparison
-    const squaresValues = squares.map(sq => sq.value);
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -21,11 +23,12 @@ export const calculateWinner = (squares) => {
         [0, 4, 8],
         [2, 4, 6],
     ];
+
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
-        if (squaresValues[a] && squaresValues[a] === squaresValues[b]
-            && squaresValues[a] === squaresValues[c]) {
-            return squaresValues[a];
+        if (squares[a]['value'] && squares[a]['value'] === squares[b]['value']
+            && squares[a]['value'] === squares[c]['value']) {
+            return squares[a]['value'];
         }
     }
     return null;
